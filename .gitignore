@@ -48,3 +48,6 @@ pom.xml.versionsBackup
 services/submission/src/test/resources/payload/mobile-client-payload.pb
 
 /temp/
+
+*.rej
+*.patch
