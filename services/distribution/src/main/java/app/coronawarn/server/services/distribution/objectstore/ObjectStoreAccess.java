@@ -63,6 +63,7 @@ public class ObjectStoreAccess {
   private final boolean isSetPublicReadAclOnPutObject;
 
   private final String bucket;
+  private final int cacheControlMaxAge;
 
   private final MinioClient client;
 
@@ -82,6 +83,7 @@ public class ObjectStoreAccess {
     this.bucket = distributionServiceConfig.getObjectStore().getBucket();
     this.isSetPublicReadAclOnPutObject = distributionServiceConfig.getObjectStore().isSetPublicReadAclOnPutObject();
 
+    this.cacheControlMaxAge = distributionServiceConfig.getObjectStore().getCacheControlMaxAge();
     if (!this.client.bucketExists(this.bucket)) {
       throw new IllegalArgumentException("Supplied bucket does not exist " + bucket);
     }
@@ -121,6 +123,7 @@ public class ObjectStoreAccess {
     PutObjectOptions options = createOptionsFor(localFile);
 
     logger.info("... uploading {}", s3Key);
+    options.setCacheControl("public, max-age=" + cacheControlMaxAge);
     this.client.putObject(bucket, s3Key, localFile.getFile().toString(), options);
   }
 
