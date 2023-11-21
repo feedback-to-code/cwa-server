@@ -173,7 +173,7 @@ public class DiagnosisKey {
    * @return A set of constraint violations of this key.
    */
   public Set<ConstraintViolation<DiagnosisKey>> validate() {
-    return VALIDATOR.validate(this);
+    return VALIDATOR.validate(this, Default.class);
   }
 
   @Override
