@@ -34,7 +34,7 @@ public class SubmissionController {
   public ResponseEntity<Void> submitDiagnosisKey(
       @RequestBody SubmissionPayload exposureKeys,
       @RequestHeader(value = "cwa-fake") Integer fake,
-      @RequestHeader(value = "cwa-authorization") String tan) {
+      @RequestHeader(value = "cwa-authorization", required = false) String tan) {
     if (fake != 0) {
       return buildSuccessResponseEntity();
     }
