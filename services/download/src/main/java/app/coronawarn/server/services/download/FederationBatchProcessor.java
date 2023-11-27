@@ -149,7 +149,7 @@ public class FederationBatchProcessor {
       AtomicBoolean batchContainsInvalidKeys = new AtomicBoolean(false);
       response.getDiagnosisKeyBatch().ifPresentOrElse(batch -> {
         logger.info("Downloaded {} keys for date {} and batchTag {}.", batch.getKeysCount(), date, batchTag);
-        List<DiagnosisKey> validDiagnosisKeys = extractValidDiagnosisKeysFromBatch(batch);
+        List<DiagnosisKey> validDiagnosisKeys = extractValidDiagnosisKeysFromBatch(batch, date);
         int numOfInvalidKeys = batch.getKeysCount() - validDiagnosisKeys.size();
         if (numOfInvalidKeys > 0) {
           batchContainsInvalidKeys.set(true);
@@ -176,7 +176,7 @@ public class FederationBatchProcessor {
   }
 
   private List<DiagnosisKey> extractValidDiagnosisKeysFromBatch(DiagnosisKeyBatch diagnosisKeyBatch) {
-    return diagnosisKeyBatch.getKeysList()
+    return diagnosisKeyBatch.getKeysList().stream().filter(key -> key.getRollingPeriod() > 0)
         .stream()
         .filter(validFederationKeyFilter::isValid)
         .map(this::convertFederationDiagnosisKeyToDiagnosisKey)
@@ -188,7 +188,7 @@ public class FederationBatchProcessor {
   private Optional<DiagnosisKey> convertFederationDiagnosisKeyToDiagnosisKey(
       app.coronawarn.server.common.protocols.external.exposurenotification.DiagnosisKey diagnosisKey) {
     try {
-      return Optional.of(DiagnosisKey.builder().fromFederationDiagnosisKey(diagnosisKey)
+      return Optional.of(DiagnosisKey.builder().fromFederationDiagnosisKey(diagnosisKey).withRollingPeriod(144)
           .withReportType(ReportType.CONFIRMED_TEST)
           .withFieldNormalization(new FederationKeyNormalizer(config))
           .build());
