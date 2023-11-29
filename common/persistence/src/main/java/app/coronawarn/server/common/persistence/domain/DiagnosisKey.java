@@ -58,6 +58,7 @@ public class DiagnosisKey {
   @Id
   @Size(min = 16, max = 16, message = "Key data must be a byte array of length 16.")
   @Column(unique = true)
+  @Range(min = 0, message = "Submission timestamp must be greater or equal to zero.")
   private byte[] keyData;
 
   @ValidRollingStartIntervalNumber
