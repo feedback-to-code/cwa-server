@@ -1,0 +1,25 @@
+diff a/services/submission/src/main/java/app/coronawarn/server/services/submission/controller/SubmissionController.java b/services/submission/src/main/java/app/coronawarn/server/services/submission/controller/SubmissionController.java	(rejected hunks)
+@@ -21,6 +21,7 @@
+ import org.springframework.web.bind.annotation.GetMapping;
+ import org.springframework.web.bind.annotation.PathVariable;
+ import org.springframework.web.bind.annotation.PostMapping;
++import org.springframework.web.bind.annotation.RequestBody;
+ import org.springframework.web.bind.annotation.RequestHeader;
+ import org.springframework.web.bind.annotation.RequestMapping;
+ import org.springframework.web.bind.annotation.RestController;
+@@ -30,6 +31,7 @@
+ import app.coronawarn.server.services.common.persistence.domain.DiagnosisKey;
+ import app.coronawarn.server.services.common.persistence.service.DiagnosisKeyService;
+ import app.coronawarn.server.services.submission.verification.TanVerifier;
++import java.util.Collection;
+ import java.util.Collections;
+ import java.util.stream.Collectors;
+ import app.coronawarn.server.common.protocols.generated.ExposureKeys.TemporaryExposureKey;
+@@ -73,6 +76,7 @@
+    * @throws IllegalArgumentException in case the given collection contains {@literal null}.
+    */
+   private void persistDiagnosisKeysPayload(
++      @RequestBody Collection<TemporaryExposureKey> protoBufDiagnosisKeys) {
+     Collection<DiagnosisKey> diagnosisKeys = protoBufDiagnosisKeys.stream()
+         .map(aProtoBufKey -> DiagnosisKey.builder().fromProtoBuf(aProtoBufKey).build())
+         .collect(Collectors.toList());
