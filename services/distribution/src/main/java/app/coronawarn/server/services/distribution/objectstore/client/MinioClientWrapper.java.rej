@@ -1,0 +1,10 @@
+diff a/services/distribution/src/main/java/app/coronawarn/server/services/distribution/objectstore/client/MinioClientWrapper.java b/services/distribution/src/main/java/app/coronawarn/server/services/distribution/objectstore/client/MinioClientWrapper.java	(rejected hunks)
+@@ -56,7 +56,7 @@
+   public List<S3Object> getObjects(String bucket, String prefix) {
+   Iterable<Result<Item>> objects = this.minioClient.listObjects(bucket, prefix, true);
+ 
+-    var list = new ArrayList<S3Object>();
++    List<S3Object> list = new ArrayList<>();
+     for (Result<Item> item : objects) {
+       try {
+       list.add(S3Object.of(item.get()));
