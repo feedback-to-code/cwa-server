@@ -1,0 +1,10 @@
+diff a/services/distribution/src/main/java/app/coronawarn/server/services/distribution/assembly/diagnosiskeys/structure/directory/DiagnosisKeysDateDirectory.java b/services/distribution/src/main/java/app/coronawarn/server/services/distribution/assembly/diagnosiskeys/structure/directory/DiagnosisKeysDateDirectory.java	(rejected hunks)
+@@ -66,7 +66,7 @@
+     public void prepare(ImmutableStack<Object> indices) {
+         this.addWritable(decorateCountryDirectory(
+             new DiagnosisKeysCountryDirectory(diagnosisKeyBundler, cryptoProvider, distributionServiceConfig)));
+-        super.prepare(indices);
++        super.prepare(indices.pop());
+     }
+ 
+     private IndexDirectory<String, WritableOnDisk> decorateCountryDirectory(
